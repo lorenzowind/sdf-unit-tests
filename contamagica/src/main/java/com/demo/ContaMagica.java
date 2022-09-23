@@ -6,7 +6,7 @@ public class ContaMagica {
     private double saldo;
     private Categoria categoria;
 
-    public ContaMagica(String numero, String nomeCorrentista) {
+    public ContaMagica(String numero, String nomeCorrentista) throws IllegalNumberException, IllegalNameException{
         this.numero = numero;
         this.nomeCorrentista = nomeCorrentista;
         this.saldo = 0.0; 
@@ -84,7 +84,7 @@ public class ContaMagica {
         return false;
     }
 
-    private void verificaNroConta(String numero){
+    private void verificaNroConta(String numero) {
         int posTraco = numero.indexOf('-');
         String nroStr = numero.substring(0,posTraco);
         int nroConta = Integer.parseInt(nroStr);
