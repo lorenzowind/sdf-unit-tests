@@ -62,24 +62,32 @@ public class ContaMagica {
 
     public boolean retirada(double valor){
         if (valor <= 0.0){
-            return true;
+            return false;
+        }
+        if (valor > saldo){
+            return false;
         }
         if (categoria == Categoria.PLATINUM && saldo > 100000){
             saldo -= valor;
+            return true;
         }
         if (categoria == Categoria.PLATINUM && saldo < 100000){ 
             saldo -= valor;
             categoria = Categoria.GOLD;
+            return true;
         }
         if (categoria == Categoria.GOLD && saldo > 25000){
-            saldo -= valor *0.025; 
+            saldo -= valor *0.025;
+            return true;
         }
         if (categoria == Categoria.GOLD && saldo <= 25000){ 
-            saldo += valor *0.01;
+            saldo -= valor *0.01;
             categoria = Categoria.SILVER;
+            return true;
         }
         if (categoria == Categoria.SILVER && saldo-valor > 0){
             saldo -= valor;
+            return true;
         }
         return false;
     }
@@ -102,15 +110,16 @@ public class ContaMagica {
         }
     }
 
+    private void verificaNome(String nome){ 
+        if (nome.length() < 3){
+            throw new IllegalNameException();
+        }
+    }
+    
     @Override
     public String toString() {
         return "ContaMagica [categoria=" + categoria + ", nomeCorrentista=" + nomeCorrentista + ", numero=" + numero
                 + ", saldo=" + saldo + "]";
     }
 
-    private void verificaNome(String nome){ 
-        if (nome.length() < 3){
-            throw new IllegalNameException();
-        }
-    }
 }
