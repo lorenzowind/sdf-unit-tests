@@ -31,7 +31,7 @@ public class ContaMagica {
         return categoria;
     }
 
-    public boolean deposito(ContaMagica conta, double valor){
+    public boolean deposito(double valor){
         if (valor <= 0.0){
             return false;
         }

@@ -15,7 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ContaMagicaTest {
     public static ContaMagica cm;
 
-    @BeforeAll
+    @BeforeEach
     public static void setUp() {
        cm = new ContaMagica("123000-6", "Bob Esponja");
     }
@@ -37,16 +37,20 @@ public class ContaMagicaTest {
     // UPGRADE/DOWNGRADE DE CATEGORIA DA CONTA
     @Test
     public void depositaDinheiroMasNaoMudaCategoria(){
-        cm.deposito(200000.00);
+        cm.deposito(500000.00);
         Assertions.assertEquals(Categoria.SILVER, cm.getCategoria());
     }
     @Test
-    public void depositaMaisDinheiroPassandoParaPlatinum(){
-        cm.deposito(cm, 1000.00);
+    public void depositaMaisDinheiroPassandoParaGold(){
+        cm.deposito(200000.00);
+        cm.deposito(1000.00);
         Assertions.assertEquals(Categoria.GOLD, cm.getCategoria());
     }
-    // @Test
-    // public void shouldAnswerWithTrue() {
-    //     assertTrue(true);
-    // }
+    @Test
+    public void depositaMaisDinheiroPassandoParaPlatinum(){
+        cm.deposito(201000.00);
+        cm.deposito(1000.00);
+        Assertions.assertEquals(Categoria.PLATINUM, cm.getCategoria());
+    }
+    
 }
