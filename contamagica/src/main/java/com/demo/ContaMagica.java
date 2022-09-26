@@ -73,17 +73,20 @@ public class ContaMagica {
         if (valor <= 0.0){
             return false;
         }
-        if (valor > saldo){
-            return false;
-        }
         if (categoria == Categoria.PLATINUM && saldo >= 100000){
             saldo -= valor;
             return true;
         }
         else if (categoria == Categoria.PLATINUM && saldo < 100000){ 
             saldo -= valor;
-            categoria = Categoria.GOLD;
-            return true;
+            if(saldo < 25000){
+                categoria = Categoria.SILVER;
+                return true;
+            }
+            else{
+                categoria = Categoria.GOLD;
+                return true;
+            }
         }
         else if (categoria == Categoria.GOLD && saldo >= 25000){
             saldo -= valor;
@@ -94,10 +97,10 @@ public class ContaMagica {
             categoria = Categoria.SILVER;
             return true;
         }
-        // else if (categoria == Categoria.SILVER && saldo-valor > 0){
-        //     saldo -= valor;
-        //     return true;
-        // }
+        else if (categoria == Categoria.SILVER && saldo-valor > 0){
+            saldo -= valor;
+            return true;
+        }
         return false;
     }
 

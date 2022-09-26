@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ContaMagicaTest {
-    public static ContaMagica cm;
+    public ContaMagica cm;
 
     @BeforeEach
-    public static void setUp() {
+    public void setUp() {
        cm = new ContaMagica("123000-6", "Bob Esponja");
     }
     
@@ -29,9 +29,9 @@ public class ContaMagicaTest {
     }
 
     @Test
-    public void retiradaDeValorAleatorioMenorIgualQueSald() {
+    public void retiradaDeValorAleatorioMenorOuIgualAoSaldo() {
         cm.deposito(24000.00);
-        Assertions.assertEquals(true, cm.retirada((int)ThreadLocalRandom.current().nextDouble(1, cm.getSaldo() + 1)));
+        Assertions.assertEquals(true, cm.retirada((int)ThreadLocalRandom.current().nextDouble(1, cm.getSaldo())));
     }
 
     // UPGRADE/DOWNGRADE DE CATEGORIA DA CONTA
@@ -52,5 +52,28 @@ public class ContaMagicaTest {
         cm.deposito(1000.00);
         Assertions.assertEquals(Categoria.PLATINUM, cm.getCategoria());
     }
-    
+    @Test
+    public void depositaDinheiroPassaParaPlatinumMasPerdeMetade(){
+        cm.deposito(201000.00);
+        cm.deposito(1000.00);
+        cm.retirada(100000.00);
+        cm.retirada(2000.00);
+        Assertions.assertEquals(Categoria.PLATINUM, cm.getCategoria());
+    }
+    @Test
+    public void depositaDinheiroPassaParaPlatinumMasRetiraPassandoParaGold(){
+        cm.deposito(201000.00);
+        cm.deposito(1000.00);
+        cm.retirada(103000.00);
+        cm.retirada(1000.00);
+        Assertions.assertEquals(Categoria.GOLD, cm.getCategoria());
+    }
+    @Test
+    public void depositaDinheiroPassaParaPlatinumMasPerdeTudo(){
+        cm.deposito(201000.00);
+        cm.deposito(1000.00);
+        cm.retirada(178000.00);
+        cm.retirada(1000.00);
+        Assertions.assertEquals(Categoria.SILVER, cm.getCategoria());
+    }
 }
