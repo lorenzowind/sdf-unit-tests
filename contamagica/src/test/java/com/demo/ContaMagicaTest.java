@@ -25,26 +25,25 @@ public class ContaMagicaTest {
     public void retiradaDeValorAleatorioMaiorQueSaldo() {
         cm.deposito(24000.00);
         double maxValorParaRetirada = cm.getSaldo() * 2; // adicionei um teto para o gerador de numeros pseudoaleatorios nao retirar um valor absurdo da conta, no caso eh o dobro 
-        cm.retirada((int)ThreadLocalRandom.current().nextDouble(cm.getSaldo()+1, maxValorParaRetirada));
-        Assertions.assertNotEquals(false, false);
+        Assertions.assertEquals(false, cm.retirada((int)ThreadLocalRandom.current().nextDouble(cm.getSaldo()+1, maxValorParaRetirada)));
     }
 
     @Test
     public void retiradaDeValorAleatorioMenorIgualQueSald() {
         cm.deposito(24000.00);
-        Assertions.assertNotEquals(true, cm.retirada(ThreadLocalRandom.current().nextDouble(1, cm.getSaldo() + 1)));
+        Assertions.assertEquals(true, cm.retirada((int)ThreadLocalRandom.current().nextDouble(1, cm.getSaldo() + 1)));
     }
 
     // UPGRADE/DOWNGRADE DE CATEGORIA DA CONTA
     @Test
-    public void depositaDinheiroMasFazUpgradeParaMaisDeUmaCategoria(){
+    public void depositaDinheiroMasNaoMudaCategoria(){
         cm.deposito(200000.00);
-        Assertions.assertNotEquals(Categoria.GOLD, cm.getCategoria());
+        Assertions.assertEquals(Categoria.SILVER, cm.getCategoria());
     }
     @Test
-    public void retiraDinheiroMasFazDowngradeParaMaisDeUmaCategoria(){
-        cm.retirada(2000000.00);
-        Assertions.assertEquals(Categoria.SILVER, cm.getCategoria());
+    public void depositaMaisDinheiroPassandoParaPlatinum(){
+        cm.deposito(cm, 1000.00);
+        Assertions.assertEquals(Categoria.GOLD, cm.getCategoria());
     }
     // @Test
     // public void shouldAnswerWithTrue() {

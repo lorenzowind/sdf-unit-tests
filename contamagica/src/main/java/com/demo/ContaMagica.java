@@ -31,7 +31,7 @@ public class ContaMagica {
         return categoria;
     }
 
-    public boolean deposito(double valor){
+    public boolean deposito(ContaMagica conta, double valor){
         if (valor <= 0.0){
             return false;
         }
@@ -39,22 +39,31 @@ public class ContaMagica {
             saldo += valor;
             return true;
         }
-        if (categoria == Categoria.SILVER && saldo >= 50000){
-            saldo += valor;
-            categoria = Categoria.GOLD;
+        else if (categoria == Categoria.SILVER && saldo >= 50000){
+            //saldo += valor;
+            if (saldo > 200000){
+                saldo += valor; 
+                categoria = Categoria.PLATINUM;
+                return true;
+            }
+            else{ 
+                saldo += valor;
+                categoria = Categoria.GOLD;
+                return true;
+            }    
+            //return true;
+        }
+        else if (categoria == Categoria.GOLD && saldo <= 200000){
+            saldo += valor+(valor*0.01); 
             return true;
         }
-        if (categoria == Categoria.GOLD && saldo < 200000){
-            saldo += valor*0.01; 
-            return true;
-        }
-        if (categoria == Categoria.GOLD && saldo >= 200000){
-            saldo += valor*1.01; 
+        else if (categoria == Categoria.GOLD && saldo > 200000){
+            saldo += valor+(valor*1.01); 
             categoria = Categoria.PLATINUM;
             return true;
         }
-        if (categoria == Categoria.PLATINUM){
-            saldo += valor*1.02; 
+        else if (categoria == Categoria.PLATINUM){
+            saldo += valor+(valor*1.02); 
             return true;
         }
         return false;
@@ -67,28 +76,28 @@ public class ContaMagica {
         if (valor > saldo){
             return false;
         }
-        if (categoria == Categoria.PLATINUM && saldo > 100000){
+        if (categoria == Categoria.PLATINUM && saldo >= 100000){
             saldo -= valor;
             return true;
         }
-        if (categoria == Categoria.PLATINUM && saldo < 100000){ 
+        else if (categoria == Categoria.PLATINUM && saldo < 100000){ 
             saldo -= valor;
             categoria = Categoria.GOLD;
             return true;
         }
-        if (categoria == Categoria.GOLD && saldo > 25000){
-            saldo -= valor *0.025;
-            return true;
-        }
-        if (categoria == Categoria.GOLD && saldo <= 25000){ 
-            saldo -= valor *0.01;
-            categoria = Categoria.SILVER;
-            return true;
-        }
-        if (categoria == Categoria.SILVER && saldo-valor > 0){
+        else if (categoria == Categoria.GOLD && saldo >= 25000){
             saldo -= valor;
             return true;
         }
+        else if (categoria == Categoria.GOLD && saldo < 25000){ 
+            saldo -= valor;
+            categoria = Categoria.SILVER;
+            return true;
+        }
+        // else if (categoria == Categoria.SILVER && saldo-valor > 0){
+        //     saldo -= valor;
+        //     return true;
+        // }
         return false;
     }
 
