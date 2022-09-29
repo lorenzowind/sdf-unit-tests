@@ -39,7 +39,7 @@ public class ContaMagica {
             saldo += valor;
             return true;
         }
-        else if (categoria == Categoria.SILVER && saldo >= 50000){
+        if (categoria == Categoria.SILVER && saldo >= 50000){
             //saldo += valor;
             if (saldo > 200000){
                 saldo += valor; 
@@ -53,16 +53,16 @@ public class ContaMagica {
             }    
             //return true;
         }
-        else if (categoria == Categoria.GOLD && saldo <= 200000){
+        if (categoria == Categoria.GOLD && saldo <= 200000){
             saldo += valor+(valor*0.01); 
             return true;
         }
-        else if (categoria == Categoria.GOLD && saldo > 200000){
+        if (categoria == Categoria.GOLD && saldo > 200000){
             saldo += valor+(valor*1.01); 
             categoria = Categoria.PLATINUM;
             return true;
         }
-        else if (categoria == Categoria.PLATINUM){
+        if (categoria == Categoria.PLATINUM){
             saldo += valor+(valor*1.02); 
             return true;
         }
@@ -77,7 +77,7 @@ public class ContaMagica {
             saldo -= valor;
             return true;
         }
-        else if (categoria == Categoria.PLATINUM && saldo < 100000){ 
+        if (categoria == Categoria.PLATINUM && saldo < 100000){ 
             saldo -= valor;
             if(saldo < 25000){
                 categoria = Categoria.SILVER;
@@ -88,16 +88,16 @@ public class ContaMagica {
                 return true;
             }
         }
-        else if (categoria == Categoria.GOLD && saldo >= 25000){
+        if (categoria == Categoria.GOLD && saldo >= 25000){
             saldo -= valor;
             return true;
         }
-        else if (categoria == Categoria.GOLD && saldo < 25000){ 
+        if (categoria == Categoria.GOLD && saldo < 25000){ 
             saldo -= valor;
             categoria = Categoria.SILVER;
             return true;
         }
-        else if (categoria == Categoria.SILVER && saldo-valor > 0){
+        if (categoria == Categoria.SILVER && saldo-valor > 0){
             saldo -= valor;
             return true;
         }
